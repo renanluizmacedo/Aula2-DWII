@@ -45,8 +45,8 @@ if (!empty($_POST['form_submit'])) {
                 <div class="row">
                     <div class="col-4">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="id" placeholder="id" />
-                            <label for="id">CPF</label>
+                            <input type="text" class="form-control" name="cpf" placeholder="cpf" />
+                            <label for="cpf">CPF</label>
                         </div>
                     </div>
 
@@ -60,15 +60,15 @@ if (!empty($_POST['form_submit'])) {
                 <div class="row">
                     <div class="col-4">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="sigla" placeholder="Sigla" />
-                            <label for="sigla">Endereço</label>
+                            <input type="text" class="form-control" name="endereco" placeholder="endereco" />
+                            <label for="endereco">Endereço</label>
                         </div>
                     </div>
 
                     <div class="col-8">
                         <div class="form-floating mb-3">
-                            <input type="number" min="1" max="5" class="form-control" name="tempo" placeholder="Tempo" />
-                            <label for="tempo">Telefone</label>
+                            <input type="number"  class="form-control" name="telefone" placeholder="telefone" />
+                            <label for="telefone">Telefone</label>
                         </div>
                     </div>
                 </div>

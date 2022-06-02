@@ -35,22 +35,22 @@
 		return null;	
 	}
 
-	function insert($curso) {
+	function insert($pessoa) {
 
 		$fp = fopen('pessoas.txt', 'a+');
 
 		if ($fp) {
-			foreach($curso as $id => $dados) {
+			foreach($pessoa as $id => $dados) {
 				if(!empty($dados)) {
 					fputs($fp, $id);
 					fputs($fp, "\n");
-					$linha=$dados['nome']."#".$dados['sigla']."#".$dados['tempo'];
+					$linha=$dados['nome']."#".$dados['endereco']."#".$dados['telefone'];
 					fputs($fp, $linha);
 					fputs($fp, "\n");
 				}
 			}
 			fclose($fp);
-			echo "<script> alert('[OK] Curso Cadastrado com Sucesso!') </script>";
+			echo "<script> alert('[OK] Pessoa Cadastrada com Sucesso!') </script>";
 		}
 	}
 
@@ -77,7 +77,7 @@
 				}
 			}
 			fclose($fp);
-			echo "<script> alert('[OK] Curso Alterado com Sucesso!') </script>";
+			echo "<script> alert('[OK] Pessoa Alterado com Sucesso!') </script>";
 
 			unlink("pessoas.txt");
 			rename("bkp.txt", "pessoas.txt");
