@@ -1,89 +1,125 @@
 <?php
 
-	function select() {
+function select()
+{
 
-		$pessoas = array();
-		$fp = fopen('pessoas.txt', 'r');
+	$pessoas = array();
+	$fp = fopen('pessoas.txt', 'r');
 
-        if($fp) {
-            while(!feof($fp)) {
-				$arr = array();
-                $id = fgets($fp);
-				$dados = fgets($fp);
-				if(!empty($dados)) {
-					$arr = explode("#", $dados);
-					$pessoas[$id] = $arr;
-				}
+	if ($fp) {
+		while (!feof($fp)) {
+			$arr = array();
+			$id = fgets($fp);
+			$dados = fgets($fp);
+			if (!empty($dados)) {
+				$arr = explode("#", $dados);
+				$pessoas[$id] = $arr;
 			}
-			fclose($fp);
 		}
-
-		return $pessoas;
+		fclose($fp);
 	}
 
-	function select_where($id) {
+	return $pessoas;
 
-		$pessoas = select();
+}
+
+function select_where($id)
+{
+
+	$pessoas = select();
+
+	foreach ($pessoas as $chave => $dados) {
+		// echo "$cpf=$chave<br>";
+		if (strcmp($id, trim($chave)) == 0) {
+			return $dados;
+		}
+	}
+
+	return null;
+}
+
+function insert($pessoa)
+{
+
+	$fp = fopen('pessoas.txt', 'a+');
+
+	if ($fp) {
+		foreach ($pessoa as $id => $dados) {
+			if (!empty($dados)) {
+				fputs($fp, $id);
+				fputs($fp, "\n");
+				$linha = $dados['nome'] . "#" . $dados['endereco'] . "#" . $dados['telefone'];
+				fputs($fp, $linha);
+				fputs($fp, "\n");
+			}
+		}
+		fclose($fp);
+		echo "<script> alert('[OK] Pessoa Cadastrada com Sucesso!') </script>";
+	}
+}
+
+function delete($pessoa_del)
+{
+
+	$pessoas = select();
+
+	$fp = fopen('bkp.txt', 'a+');
+
+	$c = array_keys($pessoa_del);
+	$p = $c[0];
+
+	if ($fp) {
+
 
 		foreach ($pessoas as $chave => $dados) {
-			// echo "$cpf=$chave<br>";
-			if(strcmp($id, trim($chave)) == 0) { 
-				return $dados;
-			}
-		}
+			if (!empty($dados)) {
+				if ($c[0] != $chave  ) {
 
-		return null;	
-	}
-
-	function insert($pessoa) {
-
-		$fp = fopen('pessoas.txt', 'a+');
-
-		if ($fp) {
-			foreach($pessoa as $id => $dados) {
-				if(!empty($dados)) {
-					fputs($fp, $id);
-					fputs($fp, "\n");
-					$linha=$dados['nome']."#".$dados['endereco']."#".$dados['telefone'];
-					fputs($fp, $linha);
-					fputs($fp, "\n");
-				}
-			}
-			fclose($fp);
-			echo "<script> alert('[OK] Pessoa Cadastrada com Sucesso!') </script>";
-		}
-	}
-
-	function update($new, $id) {
-
-		$pessoas = select();
-
-		$fp = fopen('bkp.txt', 'a+');
-
-		if ($fp) {
-			foreach($pessoas as $chave => $dados) {
-				if(!empty($dados)) {
 					fputs($fp, $chave);
-					if($id == trim($chave)){
-						foreach($new as $new_id => $new_dados) {
-							if(!empty($new_dados)) {
-								$linha=$new_dados['nome']."#".$new_dados['sigla']."#".$new_dados['tempo']."\n";
-							}
+					$linha = $dados['0'] . "#" . $dados['1'] . "#" . $dados['2'];
+					fputs($fp, $linha);
+				}
+				else{
+
+				}
+				echo "<br>";
+			}
+		}
+	}
+	fclose($fp);
+	echo "<script> alert('[OK] Pessoa Deletada com Sucesso!') </script>";
+
+	unlink("pessoas.txt");
+	rename("bkp.txt", "pessoas.txt");
+
+
+}
+function update($new, $id)
+{
+
+	$pessoas = select();
+
+	$fp = fopen('bkp.txt', 'a+');
+
+	if ($fp) {
+		foreach ($pessoas as $chave => $dados) {
+			if (!empty($dados)) {
+				fputs($fp, $chave);
+				if ($id == trim($chave)) {
+					foreach ($new as $new_id => $new_dados) {
+						if (!empty($new_dados)) {
+							$linha = $new_dados['nome'] . "#" . $new_dados['endereco'] . "#" . $new_dados['telefone'] . "\n";
 						}
 					}
-					else 
-						$linha=$dados[0]."#".$dados[1]."#".$dados[2];
-					fputs($fp, $linha);
-				}
+				} else
+					$linha = $dados[0] . "#" . $dados[1] . "#" . $dados[2];
+				fputs($fp, $linha);
 			}
-			fclose($fp);
-			echo "<script> alert('[OK] Pessoa Alterado com Sucesso!') </script>";
-
-			unlink("pessoas.txt");
-			rename("bkp.txt", "pessoas.txt");
 		}
-	}
+		fclose($fp);
+		echo "<script> alert('[OK] Pessoa Alterada com Sucesso!') </script>";
 
-	function delete() {
-
+		unlink("pessoas.txt");
+		rename("bkp.txt", "pessoas.txt");
 	}
+}

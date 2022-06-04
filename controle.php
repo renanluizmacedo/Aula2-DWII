@@ -20,20 +20,32 @@ function rotas($url)
 		if ($pessoa == null) {
 			echo "<script> alert('Código de pessoa NÃO ENCONTRADO!') </script>";
 		} else {
-			$url = "viewAlterar.php?cpf=" . trim($dados[1]) . "&nome=" . $pessoa[0] . "&endereco=" . $pessoa[1] . "&telefone=" . trim($pessoa[2]);
+			$url = "viewAlterar.php?cpf=" . trim($dados[1]) . "&nome=" 
+			. $pessoa[0] . "&endereco=" 
+			. $pessoa[1] . "&telefone=" 
+			. trim($pessoa[2]);
+
 			echo "<script> window.location='" . $url . "' </script>";
 		}
 	}
 	// REMOVER
 	else if (strcmp($dados[0], "remover") == 0) {
-		echo "<script> window.location='viewRemover.php?cpf=" . $dados[1] . "' </script>";
+
+		$pessoa = select_where(trim($dados[1]));
+
+		$url = "viewRemover.php?cpf=" . trim($dados[1]) . "&nome=" 
+		. $pessoa[0] . "&endereco=" 
+		. $pessoa[1] . "&telefone=" 
+		. trim($pessoa[2]);
+
+		echo "<script> window.location='" . $url . "' </script>";
 	}
 }
 
 function cadastrar()
 {
 
-	
+
 	// Monta o array
 	$dados = array(
 		$_POST['cpf'] => array(
@@ -50,7 +62,6 @@ function cadastrar()
 
 function alterar()
 {
-
 	// Monta o array
 	$dados = array(
 		$_POST['cpf'] => array(
@@ -62,6 +73,23 @@ function alterar()
 
 	update($dados, $_POST['cpf']);
 	echo "<script> window.location='viewMain.php' </script>";
+
+}
+
+function remover()
+{
+
+	$dados = array(
+		$_GET['cpf'] => array(
+			"nome" => $_GET['nome'],
+			"endereco" => $_GET['endereco'],
+			"telefone" => $_GET['telefone']
+		)
+	);
+	delete($dados);
+
+	echo "<script> window.location='viewMain.php' </script>";
+
 }
 
 function loadPessoas()
