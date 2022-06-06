@@ -1,6 +1,6 @@
 <?php
 
-include_once("modelo.php");
+include_once("../model/modelo.php");
 
 function rotas($url)
 {
@@ -10,7 +10,7 @@ function rotas($url)
 	// CADASTRAR
 
 	if (strcmp($dados[0], "cadastrar") == 0) {
-		echo "<script> window.location='viewCadastrar.php' </script>";
+		echo "<script> window.location='/view/viewCadastrar.php' </script>";
 	}
 	// ALTERAR
 	else if (strcmp($dados[0], "alterar") == 0) {
@@ -20,7 +20,7 @@ function rotas($url)
 		if ($pessoa == null) {
 			echo "<script> alert('Código de pessoa NÃO ENCONTRADO!') </script>";
 		} else {
-			$url = "viewAlterar.php?cpf=" . trim($dados[1]) . "&nome=" 
+			$url = "/view/viewAlterar.php?cpf=" . trim($dados[1]) . "&nome=" 
 			. $pessoa[0] . "&endereco=" 
 			. $pessoa[1] . "&telefone=" 
 			. trim($pessoa[2]);
@@ -33,7 +33,7 @@ function rotas($url)
 
 		$pessoa = select_where(trim($dados[1]));
 
-		$url = "viewRemover.php?cpf=" . trim($dados[1]) . "&nome=" 
+		$url = "/view/viewRemover.php?cpf=" . trim($dados[1]) . "&nome=" 
 		. $pessoa[0] . "&endereco=" 
 		. $pessoa[1] . "&telefone=" 
 		. trim($pessoa[2]);
@@ -57,7 +57,7 @@ function cadastrar()
 
 
 	insert($dados);
-	echo "<script> window.location='viewMain.php' </script>";
+	echo "<script> window.location='/view/viewMain.php' </script>";
 }
 
 function alterar()
@@ -72,7 +72,7 @@ function alterar()
 	);
 
 	update($dados, $_POST['cpf']);
-	echo "<script> window.location='viewMain.php' </script>";
+	echo "<script> window.location='/view/viewMain.php' </script>";
 
 }
 
@@ -88,7 +88,7 @@ function remover()
 	);
 	delete($dados);
 
-	echo "<script> window.location='viewMain.php' </script>";
+	echo "<script> window.location='/view/viewMain.php' </script>";
 
 }
 

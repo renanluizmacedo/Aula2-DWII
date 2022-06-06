@@ -1,6 +1,6 @@
 <?php
 
-include_once("controle.php");
+include_once("../control/controle.php");
 
 if (!empty($_POST['form_submit'])) {
     cadastrar();

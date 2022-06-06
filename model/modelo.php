@@ -4,7 +4,7 @@ function select()
 {
 
 	$pessoas = array();
-	$fp = fopen('pessoas.txt', 'r');
+	$fp = fopen('../resources/pessoas.txt', 'r');
 
 	if ($fp) {
 		while (!feof($fp)) {
@@ -41,7 +41,7 @@ function select_where($id)
 function insert($pessoa)
 {
 
-	$fp = fopen('pessoas.txt', 'a+');
+	$fp = fopen('../resources/pessoas.txt', 'a+');
 
 	if ($fp) {
 		foreach ($pessoa as $id => $dados) {
@@ -63,10 +63,9 @@ function delete($pessoa_del)
 
 	$pessoas = select();
 
-	$fp = fopen('bkp.txt', 'a+');
+	$fp = fopen('../resources/bkp.txt', 'a+');
 
 	$c = array_keys($pessoa_del);
-	$p = $c[0];
 
 	if ($fp) {
 
@@ -74,7 +73,6 @@ function delete($pessoa_del)
 		foreach ($pessoas as $chave => $dados) {
 			if (!empty($dados)) {
 				if ($c[0] != $chave  ) {
-
 					fputs($fp, $chave);
 					$linha = $dados['0'] . "#" . $dados['1'] . "#" . $dados['2'];
 					fputs($fp, $linha);
@@ -89,8 +87,8 @@ function delete($pessoa_del)
 	fclose($fp);
 	echo "<script> alert('[OK] Pessoa Deletada com Sucesso!') </script>";
 
-	unlink("pessoas.txt");
-	rename("bkp.txt", "pessoas.txt");
+	unlink("../resources/pessoas.txt");
+	rename("../resources/bkp.txt", "../resources/pessoas.txt");
 
 
 }
@@ -99,7 +97,7 @@ function update($new, $id)
 
 	$pessoas = select();
 
-	$fp = fopen('bkp.txt', 'a+');
+	$fp = fopen('../resources/bkp.txt', 'a+');
 
 	if ($fp) {
 		foreach ($pessoas as $chave => $dados) {
@@ -119,7 +117,7 @@ function update($new, $id)
 		fclose($fp);
 		echo "<script> alert('[OK] Pessoa Alterada com Sucesso!') </script>";
 
-		unlink("pessoas.txt");
-		rename("bkp.txt", "pessoas.txt");
+		unlink("../resources/pessoas.txt");
+		rename("../resources/bkp.txt", "../resources/pessoas.txt");
 	}
 }

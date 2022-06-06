@@ -1,10 +1,9 @@
 <?php
 
-include_once("controle.php");
-
+include_once("../control/controle.php");
 remover();
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,7 +16,6 @@ remover();
 </head>
 
 <body>
-
 </body>
 
 </html>
