@@ -69,7 +69,7 @@ function cadastrar()
 
 function alterar()
 {
-	/*$bd = new BD();
+	$bd = new BD();
 
 	$dados = array(
 		$_POST['cpf'] => array(
@@ -79,10 +79,9 @@ function alterar()
 		)
 	);
 
-	var_dump($dados);
 
-*/	//$bd->update_BD($dados, $_POST['cpf']);
-	//echo "<script> window.location='/view/viewMain.php' </script>";
+	$bd->update_BD($dados,$_POST['cpf'] );
+	echo "<script> window.location='/view/viewMain.php' </script>";
 
 }
 

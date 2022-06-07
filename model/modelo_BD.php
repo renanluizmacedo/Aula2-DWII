@@ -62,31 +62,26 @@
 
         
     }
-      function update_BD($dados, $id) {
+      function update_BD($dados,$id) {
         
-        /*
+
+
         $sql = "UPDATE pessoa SET ";
 
-        $flag = 0;
-        foreach($dados as $campo => $valor) {
-            if($flag == 0) { $sql .= "$campo=:$campo"; }
-            else { $sql .= ", $campo=:$campo"; }
-            $flag = 1;
+        foreach($dados as $pessoas ){
+            $sql .= " nome='".$pessoas['nome']. "',endereco='" 
+            .$pessoas['endereco']. "',telefone='" 
+            .$pessoas['telefone']."'";
         }
 
-        $sql .= " WHERE id=$id";
+        $sql .= " WHERE cpf=$id";
 
         $conn = $this->connection();
         $stmt = $conn->prepare($sql);
 
-        foreach($dados as $campo => &$valor) {
-            $stmt->bindParam($campo, $valor);
-        }
-
-
         $stmt->execute();
         return $stmt;
-        */
+        
     }
 
       function delete_BD($id) {
