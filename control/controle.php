@@ -8,44 +8,35 @@ function rotas($url)
 
 	$dados = explode("/", $url);
 
-	// CADASTRAR
-
 	if (strcmp($dados[0], "cadastrar") == 0) {
 		echo "<script> window.location='/view/viewCadastrar.php' </script>";
-	}
-	// ALTERAR
-	else if (strcmp($dados[0], "alterar") == 0) {
-		// Obtem dados do pessoa escolhido para alteração
+	} else if (strcmp($dados[0], "alterar") == 0) {
 
-		
 		$qry = $bd->select_where_BD(trim($dados[1]));
 
 		$pessoa = $qry->fetchObject();
 
-		
+
 		if ($pessoa == null) {
 			echo "<script> alert('Código de pessoa NÃO ENCONTRADO!') </script>";
 		} else {
-			$url = "/view/viewAlterar.php?cpf=" .$pessoa->cpf . "&nome=" 
-			. $pessoa->nome . "&endereco=" 
-			. $pessoa->endereco . "&telefone=" 
-			. $pessoa->telefone;
+			$url = "/view/viewAlterar.php?cpf=" . $pessoa->cpf . "&nome="
+				. $pessoa->nome . "&endereco="
+				. $pessoa->endereco . "&telefone="
+				. $pessoa->telefone;
 
 			echo "<script> window.location='" . $url . "' </script>";
 		}
-		
-	}
-	// REMOVER
-	else if (strcmp($dados[0], "remover") == 0) {
+	} else if (strcmp($dados[0], "remover") == 0) {
 
 		$qry = $bd->select_where_BD(trim($dados[1]));
 
 		$pessoa = $qry->fetchObject();
 
-		$url = "/view/viewRemover.php?cpf=" .$pessoa->cpf . "&nome=" 
-		. $pessoa->nome . "&endereco=" 
-		. $pessoa->endereco . "&telefone=" 
-		. $pessoa->telefone;
+		$url = "/view/viewRemover.php?cpf=" . $pessoa->cpf . "&nome="
+			. $pessoa->nome . "&endereco="
+			. $pessoa->endereco . "&telefone="
+			. $pessoa->telefone;
 
 		echo "<script> window.location='" . $url . "' </script>";
 	}
@@ -56,12 +47,10 @@ function cadastrar()
 	$bd = new BD();
 	// Monta o array
 	$dados = array(
-		$_POST['cpf'] => array(
-			"cpf" => $_POST['cpf'],
-			"nome" => $_POST['nome'],
-			"endereco" => $_POST['endereco'],
-			"telefone" => $_POST['telefone']
-		)
+		"cpf" => $_POST['cpf'],
+		"nome" => $_POST['nome'],
+		"endereco" => $_POST['endereco'],
+		"telefone" => $_POST['telefone']
 	);
 	$bd->insert_BD($dados);
 	echo "<script> window.location='/view/viewMain.php' </script>";
@@ -80,9 +69,8 @@ function alterar()
 	);
 
 
-	$bd->update_BD($dados,$_POST['cpf'] );
+	$bd->update_BD($dados, $_POST['cpf']);
 	echo "<script> window.location='/view/viewMain.php' </script>";
-
 }
 
 function remover()
@@ -90,20 +78,19 @@ function remover()
 	$bd = new BD();
 
 	$dados = $_GET['cpf'];
-	
+
 	$bd->delete_BD($dados);
 
 	echo "<script> window.location='/view/viewMain.php' </script>";
-
 }
 
 function loadPessoas()
 {
 	$obj = new BD();
-    $qry = $obj->select_BD();
+	$qry = $obj->select_BD();
 
-    while($pessoas = $qry->fetchObject()) {
-		
+	while ($pessoas = $qry->fetchObject()) {
+
 		if (!empty($pessoas)) {
 			echo "<tr>";
 			echo "<td class='d-none d-md-table-cell'>" . $pessoas->cpf . "</td>";
@@ -114,7 +101,7 @@ function loadPessoas()
 					echo "<td class='d-none d-md-table-cell'>" . $valor . "</td>";
 				$cont++;
 			}
-			
+
 
 			echo "<td>";
 			echo "<button type='submit' name='acao' value='alterar/" . $pessoas->cpf . "' class='btn btn-success'>";
