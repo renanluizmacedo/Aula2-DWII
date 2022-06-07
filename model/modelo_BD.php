@@ -29,51 +29,38 @@
       function select_where_BD($id)
     {
 
-        /*
-        $dados = $this->select_BD();
-        $sql = "SELECT pessoa ";
-
-        $flag = 0;
-        foreach($dados as $campo => $valor) {
-            if($flag == 0) { $sql .= "$campo=:$campo"; }
-            else { $sql .= ", $campo=:$campo"; }
-            $flag = 1;
-        }
-
-        $sql .= " WHERE id=$id";
+        $sql = "SELECT cpf,nome,endereco,telefone from pessoa WHERE cpf=$id";
 
         $conn = $this->connection();
         $stmt = $conn->prepare($sql);
 
-        foreach($dados as $campo => &$valor) {
-            $stmt->bindParam($campo, $valor);
-        }
-
         $stmt->execute();
+
         return $stmt;
-        */
+
+   
     }
 
       function insert_BD($dados)
     {
-        /*
-        
-        $sql = "INSERT INTO pessoa(cpf, nome, endereco,telefone) VALUES(";
-        $flag = 0;
-        foreach ($dados as $campo => $valor) {
-            if ($flag == 0) {
-                $sql .= "'$valor'";
-                $flag = 1;
-            } else {
-                $sql .= ", '$valor'";
-            }
+
+
+        $sql = "INSERT INTO pessoa(cpf,nome, endereco,telefone)
+         VALUES (";
+
+        foreach($dados as $pessoas ){
+            $sql .= " '".$pessoas['cpf']. "','" 
+            .$pessoas['nome']. "','" 
+            .$pessoas['endereco']. "','" 
+            .$pessoas['telefone']."')";
         }
-        $sql .= ")";
+         
         $conn = $this->connection();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt;
-        */
+
+        
     }
       function update_BD($dados, $id) {
         
@@ -96,6 +83,7 @@
             $stmt->bindParam($campo, $valor);
         }
 
+
         $stmt->execute();
         return $stmt;
         */
@@ -103,14 +91,11 @@
 
       function delete_BD($id) {
 
-        var_dump($id);
- 
         $conn = $this->connection();
-        $stmt = $conn->prepare("DELETE FROM pessoa WHERE cpf=$id[0]");
+        $stmt = $conn->prepare("DELETE FROM pessoa WHERE cpf=$id");
         $stmt->execute();
      
-
-        return $stmt;
+       return $stmt;
     }
 
 }

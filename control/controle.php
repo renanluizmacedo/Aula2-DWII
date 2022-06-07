@@ -16,28 +16,36 @@ function rotas($url)
 	// ALTERAR
 	else if (strcmp($dados[0], "alterar") == 0) {
 		// Obtem dados do pessoa escolhido para alteração
-		$pessoa = $bd->select_where_BD(trim($dados[1]));
 
+		
+		$qry = $bd->select_where_BD(trim($dados[1]));
+
+		$pessoa = $qry->fetchObject();
+
+		
 		if ($pessoa == null) {
 			echo "<script> alert('Código de pessoa NÃO ENCONTRADO!') </script>";
 		} else {
-			$url = "/view/viewAlterar.php?cpf=" . trim($dados[1]) . "&nome=" 
-			. $pessoa[0] . "&endereco=" 
-			. $pessoa[1] . "&telefone=" 
-			. trim($pessoa[2]);
+			$url = "/view/viewAlterar.php?cpf=" .$pessoa->cpf . "&nome=" 
+			. $pessoa->nome . "&endereco=" 
+			. $pessoa->endereco . "&telefone=" 
+			. $pessoa->telefone;
 
 			echo "<script> window.location='" . $url . "' </script>";
 		}
+		
 	}
 	// REMOVER
 	else if (strcmp($dados[0], "remover") == 0) {
 
-		$pessoa = $bd->select_where_BD(trim($dados[1]));
+		$qry = $bd->select_where_BD(trim($dados[1]));
 
-		$url = "/view/viewRemover.php?cpf=" . trim($dados[1]) . "&nome=" 
-		. $pessoa[0] . "&endereco=" 
-		. $pessoa[1] . "&telefone=" 
-		. trim($pessoa[2]);
+		$pessoa = $qry->fetchObject();
+
+		$url = "/view/viewRemover.php?cpf=" .$pessoa->cpf . "&nome=" 
+		. $pessoa->nome . "&endereco=" 
+		. $pessoa->endereco . "&telefone=" 
+		. $pessoa->telefone;
 
 		echo "<script> window.location='" . $url . "' </script>";
 	}
@@ -55,16 +63,14 @@ function cadastrar()
 			"telefone" => $_POST['telefone']
 		)
 	);
-
 	$bd->insert_BD($dados);
 	echo "<script> window.location='/view/viewMain.php' </script>";
 }
 
 function alterar()
 {
-	$bd = new BD();
+	/*$bd = new BD();
 
-	// Monta o array
 	$dados = array(
 		$_POST['cpf'] => array(
 			"nome" => $_POST['nome'],
@@ -73,8 +79,10 @@ function alterar()
 		)
 	);
 
-	$bd->update_BD($dados, $_POST['cpf']);
-	echo "<script> window.location='/view/viewMain.php' </script>";
+	var_dump($dados);
+
+*/	//$bd->update_BD($dados, $_POST['cpf']);
+	//echo "<script> window.location='/view/viewMain.php' </script>";
 
 }
 
@@ -82,17 +90,9 @@ function remover()
 {
 	$bd = new BD();
 
-	$dados = array(
-		$_GET['cpf'] => array(
-			"nome" => $_GET['nome'],
-			"endereco" => $_GET['endereco'],
-			"telefone" => $_GET['telefone']
-		)
-	);
+	$dados = $_GET['cpf'];
 	
-	$k = array_keys($dados);
-	
-	$bd->delete_BD($k);
+	$bd->delete_BD($dados);
 
 	echo "<script> window.location='/view/viewMain.php' </script>";
 
@@ -100,10 +100,6 @@ function remover()
 
 function loadPessoas()
 {
-	$bd = new BD();
-
-	$pessoas = $bd->select_BD();
-
 	$obj = new BD();
     $qry = $obj->select_BD();
 
